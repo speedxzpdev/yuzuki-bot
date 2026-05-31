@@ -1,4 +1,4 @@
-import { Telegraf, Markup } from "telegraf";
+import { Telegraf, Markup, Input } from "telegraf";
 
 function registerStart(bot: Telegraf) {
     bot.start(async (ctx) => {
@@ -9,7 +9,7 @@ function registerStart(bot: Telegraf) {
             Markup.button.url("😾Github", "https://github.com/speedxzpdev/yuzuki-bot"),
         ]);
 
-        await ctx.replyWithPhoto("../../assets/img/start.jpg", {
+        await ctx.replyWithPhoto(Input.fromLocalFile("../../assets/img/start.jpg"), {
             parse_mode: "Markdown",
             caption: text,
             ...buttons
