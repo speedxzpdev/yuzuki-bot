@@ -1,5 +1,8 @@
 import { Telegraf, Context } from "telegraf";
+import dotenv from "dotenv";
+dotenv.config();
 import commandTiktok from "../bot/commands/tiktok.js";
+import commandStart from "../bot/commands/start.js";
 
 
 
@@ -14,15 +17,8 @@ const bot = new Telegraf<BotContext>(process.env.TOKEN_BOT!);
 try {
 // registra comandos ANTES de lançar
 commandTiktok(bot);
-bot.start(async (ctx) => {
-    try {
-        await ctx.reply("Oi!");
-    } catch (error) {
-        console.error(error);
-        
-    }
-    
-});
+commandStart(bot)
+
 
     console.log("comandos carregados!");
 } catch(error) {
