@@ -1,0 +1,27 @@
+{
+  "name": "yuzuki-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "tsc && node --env-file=.env dist/index.js",
+    "dev": "tsc --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "devDependencies": {
+    "@types/node": "^25.9.1",
+    "typescript": "^6.0.3"
+  },
+  "dependencies": {
+    "@fastify/rate-limit": "^10.3.0",
+    "axios": "^1.16.1",
+    "dotenv": "^17.4.2",
+    "fastify": "^5.8.5",
+    "form-data": "^4.0.5",
+    "telegraf": "^4.16.3"
+  }
+}
