@@ -1,5 +1,7 @@
 import app from "./api/app.js";
 import bot from "./bot/bot.js";
+import dotenv from "dotenv";
+dotenv.config();
 
 
 async function main() {
