@@ -7,7 +7,7 @@ dotenv.config();
 async function main() {
     console.log("inicializando api...");
     try {
-        await app.listen({ port: parseInt(process.env.PORT || "3000") });
+        await app.listen({ port: parseInt(process.env.PORT || "3000"), host: '0.0.0.0'});
         console.log(`api rodando em http://localhost:${process.env.PORT || "3000"}`);
     } catch (error) {
         console.error("erro ao iniciar api.", error);
