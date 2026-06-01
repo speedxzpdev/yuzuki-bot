@@ -1,10 +1,11 @@
 import { Telegraf, Context } from "telegraf";
 import dotenv from "dotenv";
 dotenv.config();
-import commandTiktok from "../bot/commands/tiktok.js";
-import commandStart from "../bot/commands/start.js";
-
-
+import CommandLoader from "./utils/loadComands.js";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 interface BotContext extends Context {
     session?: {
@@ -16,11 +17,11 @@ interface BotContext extends Context {
 const bot = new Telegraf<BotContext>(process.env.TOKEN_BOT!);
 try {
 // registra comandos ANTES de lançar
-commandTiktok(bot);
-commandStart(bot)
+(async () => {
+    const commandLoader = new CommandLoader(bot);
+    await commandLoader.load(path.join(__dirname, "commands"));
 
-
-    console.log("comandos carregados!");
+})();
 } catch(error) {
     console.error("erro ao carregar comandos", error);
     

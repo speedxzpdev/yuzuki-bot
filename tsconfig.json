@@ -5,6 +5,12 @@
       "rootDir": "./src",
       "outDir": "./dist",
 
+      "paths": {
+        "*": ["./*"],
+        "@commands": ["./src/bot/interfaces/command.ts"],
+        "@api": ["./src/bot/services/api.ts"]
+      },
+
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
     "module": "nodenext",

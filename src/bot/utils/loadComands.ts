@@ -1,21 +1,22 @@
 import fs from "fs/promises";
 import path from "path"
-import bot from "../bot.js";
 import type Command from "../interfaces/command.js";
-import Telegram, { Telegraf } from "telegraf";
+import { Telegraf } from "telegraf";
+import { pathToFileURL } from "url";
 
 
-class CommandLoadder {
+class CommandLoader {
     private commands = new Map<string, Command>();
+    private isLoad: boolean = false;
 
-    constructor(private bot: Telegraf) {
-        this.bot = bot;
-    }
+    constructor(private bot: Telegraf) {}
 
     /**
      * carrega os comandos
      */
     public async load(dir: string): Promise<void> {
+        console.log("Carregando comandos...");
+        
         const files = await fs.readdir(dir);
 
         for (const file of files) {
@@ -28,22 +29,56 @@ class CommandLoadder {
                 continue;
             }
 
-            const module = await import(pathFull);
+            if(!file.endsWith(".js")) continue;
 
-            const command: Command = module.default;
+            const module = await import(pathToFileURL(pathFull).href);
+
+            const command: Command = module.default as Command;
+
+            if (!command) {
+                console.warn(`arquivo: ${file} faltando export, ignorado`);
+                continue;
+            }
 
             if (!command.name || !command.description || !command.category || !command.usage) {
-                console.warn("arquivo faltando estrutura. Ignorado");
+                console.warn(`arquivo: ${file} faltando estrutura. Ignorado`);
                 continue;
                 
             }
 
             this.commands.set(command.name, command);
 
-            this.bot.command(command.name, command.run);
+            this.bot.command(command.name, (ctx) => command.run(ctx));
+
+
         }
+
+        await this.bot.telegram.setMyCommands(Array.from(this.commands.values()).filter(c => {
+            return c.category !== "owner"
+        }).map(cmd => ({
+                command: cmd.name,
+                description: cmd.description
+            })));
+
+        this.isLoad = true;
+        console.log(`${this.commands.size} comandos carregados!`);
+        
+    }
+
+    /**
+     * getCommand
+     */
+    public getAllCommand() {
+        if(!this.isLoad) {
+            console.warn("Os comandos não foram iniciados.");
+            return [];
+        }
+
+        return Array.from(this.commands.values());
     }
 
 
 
 }
+
+export default CommandLoader;

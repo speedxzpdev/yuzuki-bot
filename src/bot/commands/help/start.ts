@@ -1,9 +1,14 @@
+import type Command from "@commands";
 import { Telegraf, Markup, Input } from "telegraf";
 import path from "path";
 
-function registerStart(bot: Telegraf) {
-    bot.start(async (ctx) => {
-    try {
+const start: Command = {
+    name: "start",
+    description: "Veja mais sobre o bot",
+    usage: "/start",
+    category: "help",
+    run: async (ctx) => {
+        try {
         const text: string = `💙​ Olá ${ctx.from.first_name}! Me chamo Yuzuki, e consigo baixar videos pra você. Basta usar o nome do comando junto do link, EX: */tiktok https://www.tiktok.com/xxx*`
 
         const buttons = Markup.inlineKeyboard([
@@ -21,9 +26,7 @@ function registerStart(bot: Telegraf) {
         console.error(error);
         
     }
-    
-});
-    
+    }
 }
 
-export default registerStart;
+export default start
