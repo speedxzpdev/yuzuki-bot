@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npx tsc && tsc-alias && node dist/index.js",
+    "start": "npx tsc && npx tsc-alias && node dist/index.js",
     "start:ipv4": "cross-env NODE_OPTIONS=--dns-result-order=ipv4first npm start",
     "dev": "tsc --watch"
   },
