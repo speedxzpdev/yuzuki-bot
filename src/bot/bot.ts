@@ -15,10 +15,11 @@ interface BotContext extends Context {
 
 
 const bot = new Telegraf<BotContext>(process.env.TOKEN_BOT!);
+let commandLoader: CommandLoader;
 try {
 // registra comandos ANTES de lançar
 (async () => {
-    const commandLoader = new CommandLoader(bot);
+    commandLoader = new CommandLoader(bot);
     await commandLoader.load(path.join(__dirname, "commands"));
 
 })();
@@ -29,4 +30,4 @@ try {
 
 
 
-export default bot;
+export { bot, commandLoader };
