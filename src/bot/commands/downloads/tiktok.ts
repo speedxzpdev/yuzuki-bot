@@ -1,10 +1,16 @@
-import { Telegraf, Markup } from "telegraf";
-import api from "../services/api.js";
+import type Command from "@commands";
+import { Markup } from "telegraf";
+import api from "@api"
 
-
-async function registerCommandTiktok(bot: Telegraf) {
-    bot.command("tiktok", async (ctx) => {
+const tiktok: Command = {
+    name: "tiktok",
+    description: "Baixa videos do tiktok!",
+    usage: "/tiktok https://www.tiktok.com/xxxx",
+    category: "download",
+    run: async (ctx) => {
         try {
+
+            if(!ctx.message || !("text" in ctx.message)) return
             const args: string[] = ctx.message.text.split(" ").slice(1);
 
             if (!args.length || !args[0]) {
@@ -42,7 +48,7 @@ async function registerCommandTiktok(bot: Telegraf) {
             await ctx.reply("Erro ao baixar o vídeo. Verifique o link e tente novamente.", { reply_parameters: { message_id: ctx.message.message_id }});
             console.error(error);
         }
-    });
+    }
 }
 
-export default registerCommandTiktok;
+export default tiktok

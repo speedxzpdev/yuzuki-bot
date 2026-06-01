@@ -5,24 +5,26 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npx tsc && node dist/index.js",
-    "start:ipv4": "NODE_OPTIONS='--dns-result-order=ipv4first' npm start",
+    "start": "npx tsc && tsc-alias && node dist/index.js",
+    "start:ipv4": "cross-env NODE_OPTIONS=--dns-result-order=ipv4first npm start",
     "dev": "tsc --watch"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "module",
-  "devDependencies": {
-  },
   "dependencies": {
-    "@types/node": "^25.9.1",
-    "typescript": "^6.0.3",
     "@fastify/rate-limit": "^10.3.0",
+    "@types/node": "^25.9.1",
     "axios": "^1.16.1",
+    "cross-env": "^10.1.0",
     "dotenv": "^17.4.2",
     "fastify": "^5.8.5",
     "form-data": "^4.0.5",
-    "telegraf": "^4.16.3"
+    "telegraf": "^4.16.3",
+    "typescript": "^6.0.3"
+  },
+  "devDependencies": {
+    "tsc-alias": "^1.8.17"
   }
 }
