@@ -1,6 +1,7 @@
 import fastify from "fastify";
 import registerDownloadRoutes from "./routes/download.js";
 import rateLimit from "@fastify/rate-limit";
+import getCommands from "./controllers/commandList.js";
 
 const app = fastify();
 
@@ -23,6 +24,8 @@ app.get("/", async (request, reply) => {
 app.register(registerDownloadRoutes, {
     prefix: "/download"
 });
+
+app.get("/commands", getCommands);
 
 
 export default app;
