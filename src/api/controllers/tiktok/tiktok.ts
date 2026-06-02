@@ -1,5 +1,6 @@
 import axios, { type AxiosInstance } from "axios";
 import FormData from "form-data";
+import redis from "@redis";
 
 function format_count(value: number): string {
 
@@ -35,6 +36,58 @@ function normalizePath(data: any, baseUrl: string): Promise<any> {
     return data;
 }
 
+function normalizeData(data: any) {
+    const obj = {
+        id: data.id,
+        author: data.author,
+        title: data.title,
+        playCount: data.play_count,
+        commentCount: data.comment_count,
+        likesCount: data.digg_count,
+        downloadCount: data.download_count,
+        hdPLay: data.hdplay,
+        play: data.play,
+        music: data.music,
+        musicInfo: data.music_info
+    }
+
+    return obj;
+}
+
+class TiktokCache {
+    private prefix = "tiktok_cache:"; 
+    
+    public async saveCache(videoUrl: string, data: any) {
+        try {
+            console.log("Salvando cache");
+            
+            const key = this.prefix + videoUrl;
+
+            await redis.set(key, JSON.stringify(data), "EX", 60 * 30); // expira em 30 minutos
+        } catch (error) {
+            console.error("Erro ao salvar no cache:", error);
+        }
+    }
+
+    public async getCache(videoUrl: string): Promise<any> {
+        try {
+            console.log("Procurando cache");
+            
+            const key = this.prefix + videoUrl;
+
+            const cached = await redis.get(key);
+            if (cached !== null) {
+                console.log("Dados encontrados no cache para:", videoUrl);
+                return JSON.parse(cached);
+            }
+            return null;
+        } catch (error) {
+            console.error("Erro ao obter do cache:", error);
+            return null;
+        }
+    }
+}
+
 
 
 export default async function tiktokController(req: any, reply: any) {
@@ -43,6 +96,14 @@ export default async function tiktokController(req: any, reply: any) {
 
         if (!videoUrl) {
             return reply.status(400).send({ error: "URL do vídeo é obrigatória." });
+        }
+
+        const cache = new TiktokCache();
+
+        const cachedData = await cache.getCache(videoUrl);
+
+        if (cachedData) {
+            return reply.status(200).send(cachedData);
         }
 
         const apiUrl = "https://www.tikwm.com/";
@@ -69,10 +130,14 @@ export default async function tiktokController(req: any, reply: any) {
 
         const response = await api.post("/", form);
 
-        const data = response.data.data;
+        const dataRaw = response.data.data;
 
-        normalizeStat(data);
-        normalizePath(data, apiUrl);
+        normalizeStat(dataRaw);
+        normalizePath(dataRaw, apiUrl);
+        const data = normalizeData(dataRaw);
+        await cache.saveCache(videoUrl, data);
+        
+
 
         return reply.status(200).send(data);
     } catch (err) {
