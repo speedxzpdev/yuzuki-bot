@@ -53,12 +53,7 @@ class CommandLoader {
 
         }
 
-        await this.bot.telegram.setMyCommands(Array.from(this.commands.values()).filter(c => {
-            return c.category !== "owner"
-        }).map(cmd => ({
-                command: cmd.name,
-                description: cmd.description
-            })));
+
 
         this.isLoad = true;
         console.log(`${this.commands.size} comandos carregados!`);
@@ -75,6 +70,22 @@ class CommandLoader {
         }
 
         return Array.from(this.commands.values());
+    }
+
+    /**
+     * registerCommands
+     */
+    public async registerCommands() {
+        try {
+        await this.bot.telegram.setMyCommands(Array.from(this.commands.values()).filter(c => {
+            return c.category !== "owner"
+        }).map(cmd => ({
+                command: cmd.name,
+                description: cmd.description
+            })));
+        } catch (err) {
+            console.error("erro ao registrar comandos", err);
+        }
     }
 
 

@@ -6,6 +6,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+import commandHandler from "./handlers/commands.js";
 
 interface BotContext extends Context {
     session?: {
@@ -28,6 +29,7 @@ try {
     
 }
 
-
+//registra handlers
+commandHandler();
 
 export { bot, commandLoader };
