@@ -1,7 +1,7 @@
 import app from "./api/app.js";
 import dotenv from "dotenv";
 dotenv.config();
-import { bot, commandLoader } from "./bot/bot.js";
+import { bot, commandLoader, mainBot } from "./bot/bot.js";
 import redis from "@redis"
 
 //DECIDIMOS PRIORIZAR O IPV4 POIS ALGUNS SERVIÇOS DE HOSPEDAGEM NÃO SUPORTAM IPV6, O QUE PODE CAUSAR PROBLEMAS DE CONECTIVIDADE. ALÉM DISSO, O IPV4 É MAIS AMPLAMENTE SUPORTADO E COMPATÍVEL COM A MAIORIA DAS REDES E DISPOSITIVOS. AO FORÇAR O USO DO IPV4, GARANTIMOS UMA EXPERIÊNCIA MAIS ESTÁVEL E CONFIÁVEL PARA OS USUÁRIOS, EVITANDO POSSÍVEIS INTERRUPÇÕES OU ERROS DE CONEXÃO RELACIONADOS AO IPV6.
@@ -26,6 +26,7 @@ async function main() {
 
     try {
         console.log("iniciando bot...");
+        await mainBot();
         bot.launch();
         await commandLoader.registerCommands();
         console.log("bot rodando!");

@@ -48,7 +48,7 @@ class CommandLoader {
 
             this.commands.set(command.name, command);
 
-            this.bot.command(command.name, (ctx) => command.run(ctx));
+            await this.bot.command(command.name, (ctx) => command.run(ctx));
 
 
         }

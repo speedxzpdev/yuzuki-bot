@@ -5,8 +5,11 @@ import redis from "@redis"
 function commandHandler(): void {
 bot.on("text", async (ctx) => {
     const text: string = ctx.message.text;
+    console.log(ctx);
+    
 
     if (text.startsWith("/")) {
+        
     }
 });
 

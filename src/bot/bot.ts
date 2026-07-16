@@ -13,23 +13,26 @@ interface BotContext extends Context {
         userId: number;
     };
 }
-
-
-const bot = new Telegraf<BotContext>(process.env.TOKEN_BOT!);
+let bot: Telegraf<BotContext>;
 let commandLoader: CommandLoader;
-try {
+
+async function mainBot() {
+
+bot = new Telegraf<BotContext>(process.env.TOKEN_BOT!);
+commandLoader: CommandLoader;
 // registra comandos ANTES de lançar
-(async () => {
+
     commandLoader = new CommandLoader(bot);
     await commandLoader.load(path.join(__dirname, "commands"));
+    await commandLoader.registerCommands();
 
-})();
-} catch(error) {
-    console.error("erro ao carregar comandos", error);
-    
-}
+
 
 //registra handlers
 commandHandler();
 
-export { bot, commandLoader };
+}
+
+
+
+export { bot, commandLoader, mainBot };
