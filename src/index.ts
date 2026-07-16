@@ -3,7 +3,6 @@ import dotenv from "dotenv";
 dotenv.config();
 import { bot, commandLoader } from "./bot/bot.js";
 import redis from "@redis"
-import { sql } from "./services/postgres.js";
 
 
 async function main() {
