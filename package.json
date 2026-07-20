@@ -5,7 +5,13 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npx tsc && npx tsc-alias && node dist/index.js",
+    "build:bot": "tsc && tsc-alias",
+    "build:frontend": "npm --prefix frontend run build",
+    "build": "npm run build:bot && npm run build:frontend",
+    "start": "npm run build && node dist/index.js",
+    "start:bot": "node dist/index.js",
+    "start:frontend": "npm --prefix frontend run preview -- --host 0.0.0.0",
+    "start:all": "npm start",
     "start:ipv4": "cross-env NODE_OPTIONS=--dns-result-order=ipv4first npm start",
     "dev": "tsc --watch"
   },
@@ -15,6 +21,7 @@
   "type": "module",
   "dependencies": {
     "@fastify/rate-limit": "^10.3.0",
+    "@fastify/static": "^10.1.0",
     "@supabase/supabase-js": "^2.107.0",
     "@types/node": "^25.9.1",
     "axios": "^1.16.1",
