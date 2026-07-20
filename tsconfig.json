@@ -9,8 +9,7 @@
         "*": ["./*"],
         "@commands": ["./src/bot/interfaces/command.ts"],
         "@api": ["./src/bot/services/api.ts"],
-        "@redis": ["./src/services/redis.ts"],
-        "@pg": ["./src/services/postgres.ts"],
+        "@redis": ["./src/services/redis.ts"]
       },
 
     // Environment Settings

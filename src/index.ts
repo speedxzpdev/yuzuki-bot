@@ -1,6 +1,6 @@
-import app from "./api/app.js";
 import dotenv from "dotenv";
 dotenv.config();
+import app from "./api/app.js";
 import { bot, commandLoader, mainBot } from "./bot/bot.js";
 import redis from "@redis"
 
