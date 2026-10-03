@@ -13,7 +13,7 @@
     "start:frontend": "npm --prefix frontend run preview -- --host 0.0.0.0",
     "start:all": "npm start",
     "start:ipv4": "cross-env NODE_OPTIONS=--dns-result-order=ipv4first npm start",
-    "dev": "tsc --watch"
+    "dev": "tsx src/index.ts"
   },
   "keywords": [],
   "author": "",
@@ -36,6 +36,7 @@
     "typescript": "^6.0.3"
   },
   "devDependencies": {
-    "tsc-alias": "^1.8.17"
+    "tsc-alias": "^1.8.17",
+    "tsx": "^4.23.15"
   }
 }
