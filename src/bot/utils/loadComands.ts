@@ -29,7 +29,7 @@ class CommandLoader {
                 continue;
             }
 
-            if(!file.endsWith(".js")) continue;
+            if(!file.endsWith(".js") && !file.endsWith(".ts")) continue;
 
             const module = await import(pathToFileURL(pathFull).href);
 
@@ -70,6 +70,10 @@ class CommandLoader {
         }
 
         return Array.from(this.commands.values());
+    }
+
+    public getCommands(name: string) {
+        return this.commands.get(name)
     }
 
     /**

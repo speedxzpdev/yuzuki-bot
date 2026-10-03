@@ -1,15 +1,30 @@
-import { bot } from '../bot.js';
-import redis from "@redis"
+import { bot, commandLoader } from '../bot.js';
 
 
 function commandHandler(): void {
-bot.on("text", async (ctx) => {
-    const text: string = ctx.message.text;
-    console.log(ctx);
-    
+bot.on("message", async (ctx) => {
+    const message = ctx.message;
 
-    if (text.startsWith("/")) {
-        
+    const content =
+        "text" in message
+        ? message.text
+        : "caption" in message
+        ? message.caption
+        : undefined; 
+
+    if (!content) return;
+    
+    if(content.startsWith("/")) {
+        const commandName = content.replaceAll("/", "");
+
+        const command = commandLoader.getCommands(commandName);
+
+        if(!command) {
+            ctx.reply("Não encontrei esse comando!")
+            return
+        }
+
+        command.run(ctx)
     }
 });
 
