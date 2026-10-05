@@ -2,6 +2,8 @@ import axios, { type AxiosInstance } from "axios";
 import FormData from "form-data";
 import redis from "@redis";
 
+const SECRET_API = process.env.SECRET_API!
+
 function format_count(value: number): string {
 
     if (value >= 1_000_000) {
@@ -91,8 +93,10 @@ class TiktokCache {
 
 
 export default async function tiktokController(req: any, reply: any) {
-    const { videoUrl } = req.body || {};
+    const { videoUrl, secret_key } = req.body || {};
     try {
+
+        if(!secret_key || secret_key !== SECRET_API) return reply.status(401).send();
 
         if (!videoUrl) {
             return reply.status(400).send({ error: "URL do vídeo é obrigatória." });

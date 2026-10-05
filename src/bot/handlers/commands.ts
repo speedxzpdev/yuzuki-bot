@@ -19,10 +19,8 @@ bot.on("message", async (ctx) => {
 
         const command = commandLoader.getCommands(commandName);
 
-        if(!command) {
-            ctx.reply("Não encontrei esse comando!")
-            return
-        }
+        if(!command) return
+
 
         command.run(ctx)
     }

@@ -1,5 +1,5 @@
 import type Command from "@commands";
-import { Telegraf, Markup, Input } from "telegraf";
+import { Markup, Input } from "telegraf";
 import path from "path";
 
 const start: Command = {
