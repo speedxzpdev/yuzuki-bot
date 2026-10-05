@@ -26,7 +26,7 @@ const tiktok: Command = {
 
             const tiktokUrl: string = args[0];
 
-            const { data } = await api.post("/download/tiktok", { videoUrl: tiktokUrl });
+            const { data } = await api.post("/download/tiktok", { videoUrl: tiktokUrl, secret_key: process.env.SECRET_API! });
 
             const buttons = Markup.inlineKeyboard([
                 Markup.button.url("💙Perfil", "https://www.tiktok.com/@" + data?.author?.unique_id)

@@ -37,10 +37,6 @@ const healthCheck = async () => {
     return { hello: "world" };
 };
 
-app.register(registerDownloadRoutes, {
-    prefix: "/download"
-});
-
 app.get("/commands", getCommands);
 app.get("/api", healthCheck);
 app.get("/api/commands", getCommands);
@@ -48,6 +44,8 @@ app.get("/api/commands", getCommands);
 app.register(registerDownloadRoutes, {
     prefix: "/api/download"
 });
+
+
 
 app.setNotFoundHandler((request, reply) => {
     if (request.url.startsWith("/api/")) {

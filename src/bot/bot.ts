@@ -7,6 +7,7 @@ import { fileURLToPath } from "node:url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 import commandHandler from "./handlers/commands.js";
+import { auth } from "./middlewares/user.js";
 
 interface BotContext extends Context {
     session?: {
@@ -19,6 +20,10 @@ let commandLoader: CommandLoader;
 async function mainBot() {
 
 bot = new Telegraf<BotContext>(process.env.TOKEN_BOT!);
+
+//MIDDLEWARES
+bot.use(auth);
+
 commandLoader: CommandLoader;
 // registra comandos ANTES de lançar
 
@@ -30,6 +35,8 @@ commandLoader: CommandLoader;
 
 //registra handlers
 commandHandler();
+
+
 
 }
 
